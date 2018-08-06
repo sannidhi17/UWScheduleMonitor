@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -ne 4 ]; then
+    echo "Incorrect use of observer!"
+    echo "Correct use : ./observer <session> <subject> <course number> <email>"
+    exit 1
+fi
+
+url="http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?&sess=$1&subject=$2&cournum=$3"
+
+curl -s $url > old.html
+
+while [ : ]
+do
+    curl -s $url > new.html
+    diff old.html new.html
+    if [ $? -ne 0 ]; then
+        echo "Webpage has changed!" | mail -s "Web page observer notification" $4
+        echo "change detected"
+        cat new.html > old.html
+    fi
+    echo "sleeping for 30 minutes"
+    sleep 1800
+done
+
