@@ -6,4 +6,4 @@ This is a bash script used to monitor the webpage http://www.adm.uwaterloo.ca/in
 
 # Use :
 
-./observer *session* *subject* *course number* *email*
+./observer < session > < subject > < course number > < email >
